@@ -55,11 +55,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        try {
-            wakeUpAndUnlock(this);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        findViewById(R.id.btn2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startqq();
+
+            }
+        });
 
 
         XGPushManager.registerPush(this, new XGIOperateCallback() {
@@ -86,6 +88,13 @@ public class MainActivity extends AppCompatActivity {
         });
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 //XGPushManager.bindAccount(getApplicationContext(), "XINGE");
+    }
+
+    private void startqq() {
+        Intent intent = new Intent(Constans.ACTION_LAUNCH_QQ_WALLET);
+        intent.putExtra(Constans.MARK, UUID.randomUUID().toString());
+        intent.putExtra(Constans.MONEY, "100");
+        sendBroadcast(intent);
     }
 
     private void startWechat() {

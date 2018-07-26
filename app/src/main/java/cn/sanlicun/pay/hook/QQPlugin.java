@@ -18,8 +18,6 @@ import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
-import static cn.sanlicun.pay.Constans.ACTION_LAUNCH_ALIPAY_WALLET;
-
 /**
  * Created by Mr Ding on 2018/7/25.
  */
@@ -72,7 +70,7 @@ public class QQPlugin implements IPlugin {
 
     private void registerLaunchReceiver(Context context, final ClassLoader classLoader) {
 
-        IntentFilter intentFilter = new IntentFilter(ACTION_LAUNCH_ALIPAY_WALLET);
+        IntentFilter intentFilter = new IntentFilter(Constans.ACTION_LAUNCH_QQ_WALLET);
 
 
         BroadcastReceiver receiver = new BroadcastReceiver() {
@@ -83,9 +81,9 @@ public class QQPlugin implements IPlugin {
                 String str2 = intent.getStringExtra(Constans.MARK);
                 if ((!TextUtils.isEmpty(str1)) && (!TextUtils.isEmpty(str2)))
                 {
-                    new m(paramContext).a(paramIntent.getStringExtra("money"), paramIntent.getStringExtra("mark"));
-                    long l = System.currentTimeMillis();
-                    Intent qqIntent= new Intent("android.intent.action.VIEW", Uri.parse("mqqapi://wallet/open?src_type=web&viewtype=0&version=1&view=7&entry=1&seq=" + l));
+                 //   new m(paramContext).a(paramIntent.getStringExtra("money"), paramIntent.getStringExtra("mark"));
+
+                    Intent qqIntent= new Intent("android.intent.action.VIEW", Uri.parse("mqqapi://wallet/open?src_type=web&viewtype=0&version=1&view=7&entry=1&seq=" + System.currentTimeMillis()));
                     qqIntent.addFlags(268435456);
                     context.startActivity(qqIntent);
                 }
