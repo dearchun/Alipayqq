@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        findViewById(R.id.btn2).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btn3).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startqq();

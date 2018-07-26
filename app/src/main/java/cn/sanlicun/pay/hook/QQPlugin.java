@@ -84,6 +84,10 @@ public class QQPlugin implements IPlugin {
                  //   new m(paramContext).a(paramIntent.getStringExtra("money"), paramIntent.getStringExtra("mark"));
 
                     Intent qqIntent= new Intent("android.intent.action.VIEW", Uri.parse("mqqapi://wallet/open?src_type=web&viewtype=0&version=1&view=7&entry=1&seq=" + System.currentTimeMillis()));
+                    intent.putExtra(Constans.MARK,"112");
+                    intent.putExtra(Constans.MONEY,"1222");
+
+
                     qqIntent.addFlags(268435456);
                     context.startActivity(qqIntent);
                 }
