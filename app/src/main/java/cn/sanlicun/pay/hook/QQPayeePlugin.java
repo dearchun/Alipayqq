@@ -18,6 +18,8 @@ import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 
+import static de.robv.android.xposed.XposedHelpers.getObjectField;
+
 /**
  * Created by Mr Ding on 2018/7/25.
  */
@@ -28,17 +30,28 @@ public class QQPayeePlugin {
     public void load(ClassLoader paramClassLoader) {
         XposedHelpers.findAndHookMethod("com.tenpay.sdk.activity.QrcodePayActivity", paramClassLoader, "onCreate", new Object[]{Bundle.class, new XC_MethodHook() {
             @SuppressWarnings("ResourceType")
-            protected void afterHookedMethod(XC_MethodHook.MethodHookParam paramAnonymousMethodHookParam) {
-                Activity ctx = (Activity) paramAnonymousMethodHookParam.thisObject;
+            protected void afterHookedMethod(XC_MethodHook.MethodHookParam param) {
+                Activity ctx = (Activity) param.thisObject;
 
                 XposedBridge.log("QrcodePayActivity---->>onCreate");
 
-                XposedHelpers.setIntField(ctx, "n", 1);
-                XposedHelpers.setBooleanField(ctx, "o", true);
-                XposedHelpers.callMethod(ctx, "d", new Object[0]);
+
+                Object o = XposedHelpers.getObjectField(param.thisObject, "n");
+                XposedBridge.log("QrcodePayActivity---->>onCreate" + o.getClass());
+
+
+              //  Object o1 = XposedHelpers.getObjectField(param.thisObject, "o");
+             //   XposedBridge.log("QrcodePayActivity---->>onCreate" + o1.getClass());
+
+
+
+
+                XposedHelpers.setBooleanField(param.thisObject, "n", true);
+               // XposedHelpers.setBooleanField(param.thisObject, "o", true);
+                XposedHelpers.callMethod(param.thisObject, "d", new Object[0]);
                 View view = new View(ctx);
                 view.setId(2131363428);
-                XposedHelpers.callMethod(ctx, "onClick", new Object[]{view});
+                XposedHelpers.callMethod(param.thisObject, "onClick", new Object[]{view});
 
                 XposedBridge.log("QrcodePayActivity---->>end");
             }
@@ -55,21 +68,30 @@ public class QQPayeePlugin {
                 Intent intent = ctx.getIntent();
                 String money = intent.getStringExtra(Constans.MONEY);
                 String mark = intent.getStringExtra(Constans.MARK);
-                XposedBridge.log("QrcodeSettingActivity---->>onCreate"+money);
+                XposedBridge.log("QrcodeSettingActivity---->>onCreate" + money);
 
+
+                if ((TextUtils.isEmpty(money)) || (TextUtils.isEmpty(mark))) {
+                    money = "1";
+                    mark = "1";
+
+                }
 
 
                 if ((!TextUtils.isEmpty(money)) && (!TextUtils.isEmpty(mark))) {
                     //((m) localObject1).b(str, (String) localObject2);
-                    XposedHelpers.callMethod(XposedHelpers.getObjectField(paramAnonymousMethodHookParam.thisObject, "d"), "setText", new Object[]{money});
-                    XposedHelpers.callMethod(XposedHelpers.getObjectField(paramAnonymousMethodHookParam.thisObject, "e"), "setText", new Object[]{mark});
-                    ((Button) XposedHelpers.getObjectField(paramAnonymousMethodHookParam.thisObject, "c")).performClick();
+                    XposedHelpers.callMethod(getObjectField(paramAnonymousMethodHookParam.thisObject, "d"), "setText", new Object[]{money});
+                    XposedHelpers.callMethod(getObjectField(paramAnonymousMethodHookParam.thisObject, "e"), "setText", new Object[]{mark});
+                    ((Button) getObjectField(paramAnonymousMethodHookParam.thisObject, "c")).performClick();
                 }
             }
         }});
         XposedHelpers.findAndHookMethod("com.tenpay.sdk.activity.NetBaseActivity", paramClassLoader, "a", new Object[]{String.class, Map.class, new XC_MethodHook() {
             protected void afterHookedMethod(XC_MethodHook.MethodHookParam paramAnonymousMethodHookParam) {
                 Activity localActivity = (Activity) paramAnonymousMethodHookParam.thisObject;
+                XposedBridge.log("NetBaseActivity---->>onCreate" +  paramAnonymousMethodHookParam.args.length);
+                XposedBridge.log("NetBaseActivity---->>onCreate" +  paramAnonymousMethodHookParam.args[1]);
+                XposedBridge.log("NetBaseActivity---->>onCreate" +  paramAnonymousMethodHookParam.args[0]);
                 Object localObject = (Map) paramAnonymousMethodHookParam.args[1];
                 String a = (String) paramAnonymousMethodHookParam.args[0];
                 StringBuffer localStringBuffer = new StringBuffer();
@@ -103,12 +125,16 @@ public class QQPayeePlugin {
         XposedHelpers.findAndHookMethod("com.tenpay.sdk.activity.QrcodePayActivity", paramClassLoader, "c", new Object[]{String.class, new XC_MethodHook() {
             protected void afterHookedMethod(XC_MethodHook.MethodHookParam paramAnonymousMethodHookParam) {
                 Activity localActivity = (Activity) paramAnonymousMethodHookParam.thisObject;
-                String str1 = (String) XposedHelpers.getObjectField(paramAnonymousMethodHookParam.thisObject, "eb");
-                String str2 = (String) XposedHelpers.getObjectField(paramAnonymousMethodHookParam.thisObject, "ec");
+                String str1 = (String) getObjectField(paramAnonymousMethodHookParam.thisObject, "eb");
+                String str2 = (String) getObjectField(paramAnonymousMethodHookParam.thisObject, "ec");
                 Object localObject = (String) paramAnonymousMethodHookParam.args[0];
                 str1 = "https://i.qianbao.qq.com/wallet/sqrcode.htm?m=tenpay&f=wallet&" + "u=" + str1 + "&a=1&n=" + str2 + "&ac=" + (String) localObject;
-                str2 = (String) XposedHelpers.getObjectField(paramAnonymousMethodHookParam.thisObject, "aa");
-                String ab = (String) XposedHelpers.getObjectField(paramAnonymousMethodHookParam.thisObject, "ab");
+
+
+
+                XposedBridge.log("QrcodePayActivity---->>onCreate" + str1);
+                str2 = (String) getObjectField(paramAnonymousMethodHookParam.thisObject, "aa");
+                String ab = (String) getObjectField(paramAnonymousMethodHookParam.thisObject, "ab");
                 if ((!TextUtils.isEmpty(str2)) && (!TextUtils.isEmpty(ab)) && (((String) localObject).length() > 64)) {
                     ///   g.a("调用增加数据方法==>QQ");
                     localObject = new Intent();
