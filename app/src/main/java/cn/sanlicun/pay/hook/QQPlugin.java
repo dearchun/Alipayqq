@@ -15,6 +15,7 @@ import java.io.File;
 import cn.sanlicun.pay.Constans;
 import dalvik.system.BaseDexClassLoader;
 import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
@@ -53,6 +54,8 @@ public class QQPlugin implements IPlugin {
                 XposedHelpers.findAndHookConstructor("dalvik.system.BaseDexClassLoader", clazzLoader, new Object[]{String.class, File.class, String.class, ClassLoader.class, new XC_MethodHook() {
                     protected void afterHookedMethod(XC_MethodHook.MethodHookParam paramAnonymousMethodHookParam) {
                         Log.e("插件版本", paramAnonymousMethodHookParam.args[0] + "");
+
+                        XposedBridge.log("插件版本---->>插件版本" +  paramAnonymousMethodHookParam.args.length);
                         if (paramAnonymousMethodHookParam.args[0].toString().contains("qwallet_plugin.apk")) {
                             BaseDexClassLoader baseDexClassLoader = (BaseDexClassLoader) paramAnonymousMethodHookParam.thisObject;
                             new QQPayeePlugin().load(baseDexClassLoader);
