@@ -5,16 +5,16 @@ package cn.sanlicun.pay.param;
  */
 
 public class PushBindParam    {
-    private  String userId;
+    private  String uId;
     private  String channelId;
     private  String requestId;
 
-    public String getUserId() {
-        return userId;
+    public String getuId() {
+        return uId;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setuId(String uId) {
+        this.uId = uId;
     }
 
     public String getChannelId() {

@@ -10,7 +10,6 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -22,9 +21,11 @@ import java.util.UUID;
 
 import cn.sanlicun.pay.net.Api;
 import cn.sanlicun.pay.param.PushBindParam;
+import cn.sanlicun.pay.ui.activity.BaseActivity;
+import cn.sanlicun.pay.util.AppUtils;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
 
     //
@@ -64,17 +65,14 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        XGPushManager.registerPush(this, new XGIOperateCallback() {
+        XGPushManager.registerPush(this, AppUtils.GET_USERNAME(this), new XGIOperateCallback() {
             @Override
             public void onSuccess(Object data, int flag) {
-//token在设备卸载重装的时候有可能会变
-                Log.d("TPush", "注册成功，设备token为：" + data);
-
 
                 PushBindParam pushBindParam = new PushBindParam();
                 pushBindParam.setChannelId(String.valueOf(data));
                 pushBindParam.setRequestId(String.valueOf(data));
-                pushBindParam.setUserId(String.valueOf(data));
+                pushBindParam.setuId(String.valueOf(AppUtils.GET_USERNAME(MainActivity.this)));
 
                 Api.BIND_DEVICE(MainActivity.this, pushBindParam, String.class, 1);
 

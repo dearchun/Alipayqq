@@ -45,6 +45,23 @@ public class Api extends BaseApi {
 
     }
 
+
+    /**
+     * 登录
+     * @param context
+     * @param param
+     * @param clazz
+     * @param TAG
+     */
+    public static void LOGIN(Context context, Object param, final Class clazz, final int TAG) {
+        send(context, "/pay/api/5b517b937a8b5", param, clazz, TAG);
+
+
+    }
+
+
+
+
     /**
      * 上传支付结果
      * @param context
@@ -54,7 +71,5 @@ public class Api extends BaseApi {
      */
     public static void PUSH_ORDER_RESULT(Context context, Object param, final Class clazz, final int TAG) {
         send(context, "/pay/notify/Index/notify", param, clazz, TAG);
-
-
     }
 }

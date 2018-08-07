@@ -2,15 +2,11 @@ package cn.sanlicun.pay.receiver;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.widget.Toast;
 
-import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
-import com.tencent.android.tpush.XGBasicPushNotificationBuilder;
 import com.tencent.android.tpush.XGPushBaseReceiver;
 import com.tencent.android.tpush.XGPushClickedResult;
-import com.tencent.android.tpush.XGPushProvider;
 import com.tencent.android.tpush.XGPushRegisterResult;
 import com.tencent.android.tpush.XGPushShowedResult;
 import com.tencent.android.tpush.XGPushTextMessage;
@@ -45,13 +41,13 @@ public class TencentReceiver extends XGPushBaseReceiver {
 
     @Override
     public void onTextMessage(Context context, XGPushTextMessage message) {
-        Toast.makeText(context, message.toString(), Toast.LENGTH_LONG).show();
+     //   Toast.makeText(context, message.toString(), Toast.LENGTH_LONG).show();
 
         // 获取自定义key-value
         String customContent = message.getCustomContent();
 
         String param = JSONObject.parseObject(customContent).getString("param");
-
+         Toast.makeText(context,param, Toast.LENGTH_LONG).show();
 
         PushMsgModel msgModel = JSONObject.parseObject(param, PushMsgModel.class);
         Intent intent = new Intent();

@@ -41,4 +41,5 @@ public class Constans {
 
     public static final CharSequence QQ = "com.tencent.mobileqq";
     public static final String  ACTION_LAUNCH_QQ_WALLET = "cn.sanlicun.action.qq";
+    public static final String LOGIN = "login";
 }
